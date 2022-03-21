@@ -2,13 +2,14 @@ import socket
 import threading
 import time
 from pymysql import NULL
+from register import insertUser
 from login import checkUser
 from type import checktype
 from post import insertPost
 from Reading import Reading
 # import file for making login and register
-import login
-import register
+from register import insertUser
+from Request import Request
 
 serverip = 'localhost'
 port = 3000
@@ -33,6 +34,16 @@ def login():
     passWord = input('Password : ')
     client.send(str_to(['checkUser',userName,passWord]).encode('utf-8'))
 login()
+'''
+# register
+register = '''
+def registerUser():
+    # insert data of register
+    email = input('Email : ')
+    userName = input('Username : ')
+    passWord = input('Password : ')
+    client.send(str_to(['insertUser',email,userName,passWord]).encode('utf-8'))
+registerUser()
 '''
 
 postsrt = '''
@@ -80,6 +91,7 @@ def client_msg(client,addr):
             client.send("data = exitw".encode('utf-8'))
             clist.pop(client)
             break
+        # login
         if data[0] == 'login' :
             if clist[client][1]==0:
                 print("mas from client{}>>>{}".format(addr,data))
@@ -87,6 +99,7 @@ def client_msg(client,addr):
             else :
                 client.send("print('You are already logged in')".encode('utf-8'))
                 client.send(userlogininput.format(clist[client][2]).encode('utf-8'))
+        # check user and password
         elif data[0] == 'checkUser':
             if checkUser(data[1],data[2]) == True:
                 client.send("print('=============login Successful=============')".encode('utf-8'))
@@ -96,12 +109,11 @@ def client_msg(client,addr):
             else :
                 client.send("print('The name or password is incorrect.')".encode('utf-8'))
                 client.send(userinput.encode('utf-8'))
-
+        # register
         elif data[0] == 'register' :
             if clist[client][1]==0:
                 print("mas from client{}>>>{}".format(addr,data))
-                client.send("print('Your register.')".encode('utf-8'))
-                client.send(userinput.encode('utf-8'))
+                client.send(register.encode('utf-8'))
             else :
                 client.send("print('You are already logged in')".encode('utf-8'))
                 client.send(userlogininput.format(clist[client][2]).encode('utf-8'))
@@ -117,7 +129,19 @@ def client_msg(client,addr):
                 time.sleep(0.2)
                 client.send("print('id:{} userpost:{} :::>>>{}')".format(data[0],data[1],data[2]).encode('utf-8'))
             client.send(userlogininput.format(clist[client][2]).encode('utf-8'))
+        
+        elif data[0] == 'request'and clist[client][1]=='a':
+            for data in Request():
+                client.send("print('id:{} userpost:{} :::>>>{}')".format(data[0],data[1],data[2]).encode('utf-8'))
+            client.send(userlogininput.format(clist[client][2]).encode('utf-8'))
+        
+        # insert data from register
+        elif data[0] == "insertUser" :
+            insertUser(data[1],data[2],data[3])
+            client.send("print('your insert register success')".encode('utf-8'))
+            client.send(userinput.encode('utf-8'))
         else:
+            time.sleep(0.2)
             client.send("print('error')".encode('utf-8'))
             client.send(userinput.encode('utf-8'))
 
@@ -141,5 +165,3 @@ while True:
     print('กำลังออนไลน์',len(clist),'คน')
     task = threading.Thread(target=client_msg,args=(client,addr))
     task.start()
-
-#klayut 633020032-4 
