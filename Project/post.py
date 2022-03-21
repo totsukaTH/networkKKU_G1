@@ -1,8 +1,15 @@
-import database
+import pymysql
+from datetime import datetime
 
-def insertPost():
-    count = database.myCursor.execute("INSERT INTO post (postId,userId,title,content,date) VALUES ('p004, 'u001', 'สวัสดีครับ','ทักไปทุกวัน ความสัมพันธ์แค่เพื่อน','2020-12-15')")
-    database.mySql.commit()
-    database.myCursor.close()
-    database.mySql.close()
+idp = 100
 
+def insertPost(data,user):
+    mySql = pymysql.connect(user = 'root',host = 'localhost',database = 'network')
+    myCursor = mySql.cursor()
+
+    myCursor.execute("INSERT INTO post (userID,content,DatePost,status) VALUES (%s,%s,%s,%s)",(user,data[1],datetime.today(),'w'))
+    
+    mySql.commit()
+    myCursor.close()
+    mySql.close()
+    
