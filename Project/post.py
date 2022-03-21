@@ -5,3 +5,4 @@ def insertPost():
     database.mySql.commit()
     database.myCursor.close()
     database.mySql.close()
+

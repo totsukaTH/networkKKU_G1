@@ -1,21 +1,13 @@
-import database
-
-# Login
-def loginUser():
-    # insert user and password for login.
-    userName = input('Username : ')
-    passWord = input('Password : ')
-    check = checkUser(userName,passWord)
-    
-    # Check user and password
-    if check == True :
-        return "success"
-    return "fail"
+import pymysql
     
 # Check Login
 def checkUser(userName,passWord):
-    database.myCursor.execute("SELECT name,password FROM user ")
-    nameAndPassword = database.myCursor.fetchall()
+    mySql = pymysql.connect(user = 'root',host = 'localhost',database = 'network')
+    myCursor = mySql.cursor()
+    myCursor.execute("SELECT userName,password FROM n_user ")
+    nameAndPassword = myCursor.fetchall()
+    mySql.close()
+    myCursor.close()
     for data in nameAndPassword :
         if data[0] == userName and data[1] == passWord :
             # username and password is correct.

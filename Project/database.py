@@ -9,6 +9,6 @@ import pymysql
 mySql = pymysql.connect(
     user = 'root',
     host = 'localhost',
-    database = 'Network'
+    database = 'network'
 )
 myCursor = mySql.cursor()
