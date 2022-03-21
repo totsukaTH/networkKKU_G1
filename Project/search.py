@@ -1,15 +1,13 @@
 # import 
 import pymysql
 
-# Check Request Post by Admin.
-def Request():
+def searchPost(postId):
     # connect database.
     mySql = pymysql.connect(user = 'root',host = 'localhost',database = 'network')
     myCursor = mySql.cursor()
     # select post from post.
-    myCursor.execute("SELECT postID,userID,content FROM post WHERE status = 'W' ")
+    myCursor.execute("SELECT content FROM post WHERE status != 'W' and postId = (%s)",(postId))
     RequestPost = myCursor.fetchall()
     mySql.close()
     myCursor.close()
-    # return value from database of Post.
     return RequestPost

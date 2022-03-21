@@ -14,6 +14,7 @@ from Reading import Reading
 from register import insertUser
 from Request import Request
 import optionText
+import search
 
 serverip = 'localhost'
 port = 3000
@@ -42,8 +43,7 @@ def client_msg(client,addr):
         
         # exit
         if data[0] == 'exit':
-            client.send("data = exit".encode('utf-8'))
-            clist.pop(client)
+            client.send("print('data = exit')".encode('utf-8'))
             break
 
 
@@ -70,21 +70,29 @@ def client_msg(client,addr):
                     time.sleep(0.2)
                     logSuccess(dataIndatabase)
             if check == True : 
+                # success
                 client.send(optionText.inputChoiceAfterLogin.format(clist[client][2]).encode('utf-8'))
             else :
                 # fail
                 client.send("print('The name or password is incorrect.')".encode('utf-8'))
                 client.send(optionText.inputChoice.encode('utf-8'))
+
         # ----- option post -----
         elif data[0] == 'post' and clist[client][1]=='u':
             client.send(optionText.inputPost.encode('utf-8'))
             client.send(optionText.inputChoiceAfterLogin.format(clist[client][2]).encode('utf-8'))
-        # ----- option uppost -----
+        # ----- action post -----
         elif data[0] == 'upPost':
             insertPost(data,clist[client][3])
         # ----- option search -----
         elif data[0] == 'search':
-              print()
+            client.send(optionText.inputPostid.encode('utf-8'))
+        # ----- action search ------
+        elif data[0] == 'searchPostId' :
+            RequestPost = search.searchPost(data[1])
+            for text in RequestPost :
+                client.send("print('ข้อความ : {}')".format(text[0]).encode('utf-8'))
+            client.send(optionText.inputChoiceAfterLogin.format(clist[client][2]).encode('utf-8'))
         # ----- option reading -----
         elif data[0] == 'reading' and clist[client][1]!=0:
             for data in Reading():

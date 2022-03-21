@@ -1,3 +1,11 @@
+# input postId for searching content.
+inputPostid = '''
+def postId():
+    postId = int(input('Insert Post Id for seaching : '))
+    client.send(str_to(['searchPostId',postId]).encode('utf-8'))
+postId()
+'''
+
 # input login of user.
 inputLogin = '''
 def login():
@@ -42,6 +50,7 @@ data = input('user name is "{}" >>> ')
 client.send(str_to([data]).encode('utf-8'))
 '''
 
+# input choice in home.
 inputChoice = '''
 data = input('Enter your choice : ')
 client.send(str_to([data]).encode('utf-8'))

@@ -1,18 +1,4 @@
-import database 
 import pymysql
-
-# register
-register = '''
-def registerUser():
-    # insert data of register
-    email = input('Email : ')
-    userName = input('Username : ')
-    passWord = input('Password : ')
-
-    # sent data of register to database.
-    database.insertUser(email,phone,userName,passWord)
-registerUser()
-'''
 
 # insert data of register to database
 def insertUser(email,userName,passWord):
