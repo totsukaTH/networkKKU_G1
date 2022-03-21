@@ -1,6 +1,5 @@
 # import 
 import pymysql
-import database
 
 # Check Login
 def checkUser():
