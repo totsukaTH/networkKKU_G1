@@ -6,12 +6,12 @@ def loginUser():
     userName = input('Username : ')
     passWord = input('Password : ')
     check = checkUser(userName,passWord)
-
+    
     # Check user and password
     if check == True :
         return "success"
     return "fail"
-
+    
 # Check Login
 def checkUser(userName,passWord):
     database.myCursor.execute("SELECT name,password FROM user ")

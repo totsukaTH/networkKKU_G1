@@ -1,35 +1,45 @@
-# import 
 import socket
-import login
-import register
+import threading
+import time
 
-serverip = '127.0.0.1'
+
+from pymysql import NULL
+serverip = 'localhost'
 port = 3000
 
-# client
+def server_msg(client):
+    data = NULL
+    while True:
+        try:
+            data = client.recv(4096).decode('utf-8')
+        except:
+            break
+
+        print(data)
+        
+        if (not data) or data == 'exit':
+            break
+
+    client.close()
+
+
+client = socket.socket()
+client.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR,1)
+
+
+try:
+    client.connect((serverip,port))
+except:
+    print('not server')
+
+task = threading.Thread(target=server_msg,args=(client,))
+task.start()
+time.sleep(0.5)
+
 while True:
-    
-    # connect server
-    server = socket.socket()
-    server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR,1)
-    server.connect((serverip,port))
-    
-    # home 
-    print("1. Login")
-    print("2. Register")
-    print("3. Exit")
-    choice = int(input("Enter your choice : "))
-    # check condition
-    checkLogin = ''
-    if choice == 1 : 
-       checkLogin = login.loginUser()
-    elif choice == 2 :
-       checkLogin = register.registerUser()
-    
-    # send massage to server.
-    server.send(checkLogin.encode('utf-8'))
-    # get massage from server.
-    data_server = server.recv(1024).decode('utf-8')
-    # display massage from server
-    print('Data from Server: ', data_server)
-    server.close()
+    data = input('Enter your choice : ')
+    if data == 'exit':
+        break
+    client.send(data.encode('utf-8'))
+    time.sleep(0.2)
+client.close()
