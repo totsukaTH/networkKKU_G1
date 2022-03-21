@@ -4,7 +4,7 @@ import pymysql
 def checkUser(userName,passWord):
     mySql = pymysql.connect(user = 'root',host = 'localhost',database = 'network')
     myCursor = mySql.cursor()
-    myCursor.execute("SELECT userName,password FROM n_user ")
+    myCursor.execute("SELECT userName,password FROM user ")
     nameAndPassword = myCursor.fetchall()
     mySql.close()
     myCursor.close()
