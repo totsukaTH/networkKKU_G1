@@ -18,10 +18,9 @@ def server_msg(client):
 
         except:
             break
-
-        #print(data)
-        exec(data)
         
+        exec(data)
+
         if (not data) or data == 'exit':
             break
 

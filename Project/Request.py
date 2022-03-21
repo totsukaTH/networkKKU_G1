@@ -1,11 +1,16 @@
+# import 
 import pymysql
-    
-# Check Login
+import database 
+
+# Check Request Post by Admin.
 def Request():
+    # connect database.
     mySql = pymysql.connect(user = 'root',host = 'localhost',database = 'network')
     myCursor = mySql.cursor()
+    # select post from post.
     myCursor.execute("SELECT postID,userID,content FROM post WHERE status = 'W' ")
-    nameAndPassword = myCursor.fetchall()
+    RequestPost = myCursor.fetchall()
     mySql.close()
     myCursor.close()
-    return nameAndPassword
+    # return value from database of Post.
+    return RequestPost

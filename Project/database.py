@@ -2,10 +2,9 @@
 # 21/02/2022 we use phpMyadmin
 
 # import 
-from pickle import FALSE, TRUE
 import pymysql
 
-# connect database in phpMyadin
+# connect database in phpMyadim
 mySql = pymysql.connect(
     user = 'root',
     host = 'localhost',
