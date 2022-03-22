@@ -1,11 +1,10 @@
+# import 
 import pymysql
-
-# Text option insert data of delete
 
 # input data to login of user.
 inputLogin = '''
 def login():
-    print("Your login")
+    print("\\nYour login")
     userName = input('Username : ')
     passWord = input('Password : ')
     client.send(str_to(['checkUser',userName,passWord]).encode('utf-8'))

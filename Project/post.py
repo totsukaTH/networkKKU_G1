@@ -5,7 +5,7 @@ from datetime import datetime
 # input post after user to login.
 inputPost = '''
 def post():
-    print("Enter the message you want to post.")
+    print("\\n== Post ==\\nInsert your message.")
     message = input('>>>')
     client.send(str_to(['upPost',message]).encode('utf-8'))
 post()
@@ -14,7 +14,8 @@ post()
 # input postId for searching content.
 inputPostid = '''
 def postId():
-    postId = int(input('Insert Post Id for seaching : '))
+    print("\\n== Search ==\\nInsert your post id that you want to find.")
+    postId = int(input('>>>'))
     client.send(str_to(['searchPostId',postId]).encode('utf-8'))
 postId()
 '''

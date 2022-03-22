@@ -1,11 +1,10 @@
+# import 
 import pymysql
-
-# Text option insert data of delete
 
 # input data to register user.
 inputRegister = '''
 def registerUser():
-    # insert data of register
+    print('\\n==== Register ====')
     email = input('Email : ')
     userName = input('Username : ')
     passWord = input('Password : ')

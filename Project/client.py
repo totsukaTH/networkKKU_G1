@@ -39,7 +39,7 @@ except:
 task = threading.Thread(target=server_msg,args=(client,))
 task.start()
 task.join()
-time.sleep(0.5)
+time.sleep(1.5)
 client.close()
 
 

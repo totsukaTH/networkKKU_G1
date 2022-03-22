@@ -1,6 +1,5 @@
+# import 
 import pymysql
-
-# Text option insert data of delete
 
 # input data of 'postId' for allow.
 inputDataForAllow = '''
