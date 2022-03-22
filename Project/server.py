@@ -92,8 +92,11 @@ def client_msg(client,addr):
         # ----- action search ------
         elif data[0] == 'searchPostId' :
             RequestPost = search.searchPost(data[1])
-            for text in RequestPost :
-                client.send("print('ข้อความ : {}')".format(text[0]).encode('utf-8'))
+            if len(RequestPost) ==1: 
+                for text in RequestPost :
+                    client.send("print('ข้อความ : {}')".format(text[0]).encode('utf-8'))
+            else:
+                client.send("print('ไม่พบข้อความ')".encode('utf-8'))
             client.send(optionText.inputChoiceAfterLogin.format(clist[client][2]).encode('utf-8'))
         # ----- option reading -----
         elif data[0].upper() == 'reading'.upper() and clist[client][1]!=0:
@@ -151,8 +154,12 @@ def client_msg(client,addr):
             client.send("print('logout Successful\\n1. Login\\n2. Register\\n3. Exit')".encode('utf-8'))
             client.send(optionText.inputChoice.encode('utf-8'))
         else :
-            client.send("print('command error')".encode('utf-8'))
-            client.send(optionText.inputChoice.encode('utf-8'))
+            if clist[client][1] == 0:
+                client.send("print('command error')".encode('utf-8'))
+                client.send(optionText.inputChoice.encode('utf-8'))
+            else :
+                client.send("print('command error')".encode('utf-8'))
+                client.send(optionText.inputChoiceAfterLogin.format(clist[client][2]).encode('utf-8'))
     client.close()
 
 # start server
