@@ -22,13 +22,12 @@ clist = {}
 
 # display option of client.
 def logSuccess(data):
-    print(data[3])
     if data[3] == 'a':
-        client.send("print('1. Request\\n2. Allow\\n3. Delete\\n4. Delete_User\\n5.Reading\\n6. offserver\\n7. Exit')".encode('utf-8'))
+        client.send("print('1. Request\\n2. Allow\\n3. Delete\\n4. Delete_User\\n5. Reading\\n6. offserver\\n7. logout')".encode('utf-8'))
         clist[client] = [addr,'a',data[0],data[2]]
     else :
         clist[client] = [addr,'u',data[0],data[2]]
-        client.send("print('1. Post\\n2. Search\\n3. Reading\\n4. Exit')".encode('utf-8'))
+        client.send("print('1. Post\\n2. Search\\n3. Reading\\n4. logout')".encode('utf-8'))
 
 # massage
 def client_msg(client,addr):
@@ -42,13 +41,13 @@ def client_msg(client,addr):
         print(data)
         
         # exit
-        if data[0] == 'exit':
+        if data[0].upper() == 'exit'.upper() and clist[client][1] == 0:
             client.send("data = exit".encode('utf-8'))
             break
 
 
         ########################### Client ###########################
-        if data[0] == 'login' :
+        if data[0].upper() == 'login'.upper() :
             if clist[client][1]==0:
                 print("mas from client{}>>>{}".format(addr,data))
                 client.send(optionText.inputLogin.encode('utf-8'))
@@ -67,7 +66,7 @@ def client_msg(client,addr):
                     # username and password is correct.
                     check = True
                     client.send("print('=============login Successful=============')".encode('utf-8'))
-                    time.sleep(0.2)
+                    time.sleep(0.5)
                     logSuccess(dataIndatabase)
             if check == True : 
                 # success
@@ -78,14 +77,15 @@ def client_msg(client,addr):
                 client.send(optionText.inputChoice.encode('utf-8'))
 
         # ----- option post -----
-        elif data[0] == 'post' and clist[client][1]=='u':
+        elif data[0].upper() == 'post'.upper() and clist[client][1]=='u':
+            print("mas from client{}>>>{}".format(addr,data))
             client.send(optionText.inputPost.encode('utf-8'))
             client.send(optionText.inputChoiceAfterLogin.format(clist[client][2]).encode('utf-8'))
         # ----- action post -----
         elif data[0] == 'upPost':
-            insertPost(data,clist[client][3])
+            insertPost(data,clist[client][2])
         # ----- option search -----
-        elif data[0] == 'search':
+        elif data[0].upper() == 'search'.upper():
             client.send(optionText.inputPostid.encode('utf-8'))
         # ----- action search ------
         elif data[0] == 'searchPostId' :
@@ -94,17 +94,20 @@ def client_msg(client,addr):
                 client.send("print('ข้อความ : {}')".format(text[0]).encode('utf-8'))
             client.send(optionText.inputChoiceAfterLogin.format(clist[client][2]).encode('utf-8'))
         # ----- option reading -----
-        elif data[0] == 'reading' and clist[client][1]!=0:
+        elif data[0].upper() == 'reading'.upper() and clist[client][1]!=0:
             for data in Reading():
                 time.sleep(0.2)
                 client.send("print('id:{} userpost:{} :::>>>{}')".format(data[0],data[1],data[2]).encode('utf-8'))
             client.send(optionText.inputChoiceAfterLogin.format(clist[client][2]).encode('utf-8'))
         # ----- option request of Admin -----
-        elif data[0] == 'request'and clist[client][1]=='a':
+        elif data[0].upper() == 'request'.upper() and clist[client][1]=='a':
+            client.send("print('There are {} recases.')".format(len(Request())).encode('utf-8'))
             for data in Request():
+                time.sleep(0.2)
                 client.send("print('id:{} userpost:{} :::>>>{}')".format(data[0],data[1],data[2]).encode('utf-8'))
             client.send(optionText.inputChoiceAfterLogin.format(clist[client][2]).encode('utf-8'))
-
+        elif data[0].upper() == 'Allow'.upper() and clist[client][1]=='a':
+            pass
 
 
 
@@ -124,11 +127,15 @@ def client_msg(client,addr):
             insertUser(data[1],data[2],data[3])
             client.send("print('your insert register success')".encode('utf-8'))
             client.send(optionText.inputChoice.encode('utf-8'))
+        elif data[0].upper() == 'logout'.upper() and clist[client][1] != 0:
+            print("mas from client{}>>>{}".format(addr,data))
+            clist[client] = [addr,0,NULL,NULL]
+            # display menu.
+            client.send("print('logout Successful\\n1. Login\\n2. Register\\n3. Exit')".encode('utf-8'))
+            client.send(optionText.inputChoice.encode('utf-8'))
         else :
             client.send("print('command error')".encode('utf-8'))
             client.send(optionText.inputChoice.encode('utf-8'))
-
-
     client.close()
 
 # start server
