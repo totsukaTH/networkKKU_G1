@@ -5,7 +5,8 @@ from datetime import datetime
 # input post after user to login.
 inputPost = '''
 def post():
-    print("\\n== Post ==\\nInsert your message.")
+    print("\\n== Post ==")
+    print("Insert your message.")
     message = input('>>>')
     client.send(str_to(['upPost',message]).encode('utf-8'))
 post()

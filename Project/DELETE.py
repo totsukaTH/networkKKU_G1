@@ -4,12 +4,14 @@ import pymysql
 
 # input data of 'post' for deleting.
 deletepost ='''
+print('Insert post id to delete post.')
 data = input('>>>')
 client.send(str_to(['-d',data]).encode('utf-8'))
 '''
 
 # input data of 'user' for deleting.
 deleteuser ='''
+print('Insert user id to delete user.')
 data = input('>>>')
 client.send(str_to(['-D',data]).encode('utf-8'))
 '''

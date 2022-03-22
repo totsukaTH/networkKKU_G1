@@ -3,7 +3,8 @@ import pymysql
 
 # input data of 'postId' for allow.
 inputDataForAllow = '''
-data = input('Allow post by PostId (insert) >>>')
+print('Allow post by PostId (insert)')
+data = input('>>> ')
 client.send(str_to(['-A',data]).encode('utf-8'))
 '''
 
