@@ -55,3 +55,21 @@ inputChoice = '''
 data = input('Enter your choice : ')
 client.send(str_to([data]).encode('utf-8'))
 '''
+
+inputallow = '''
+data = input('>>>')
+client.send(str_to(['-A',data]).encode('utf-8'))
+'''
+
+inputdelete ='''
+data = input('>>>')
+client.send(str_to(['-d',data]).encode('utf-8'))
+'''
+
+inputdeleteuser ='''
+data = input('>>>')
+client.send(str_to(['-D',data]).encode('utf-8'))
+'''
+
+
+

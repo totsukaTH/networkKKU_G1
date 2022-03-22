@@ -12,6 +12,8 @@ from post import insertPost
 from Reading import Reading
 from register import insertUser
 from Request import Request
+from Allowmsg import Allow
+from DELETE import Delpost ,Deluser
 import optionText
 import search
 
@@ -23,7 +25,7 @@ clist = {}
 # display option of client.
 def logSuccess(data):
     if data[3] == 'a':
-        client.send("print('1. Request\\n2. Allow\\n3. Delete\\n4. Delete_User\\n5. Reading\\n6. offserver\\n7. logout')".encode('utf-8'))
+        client.send("print('1. Request\\n2. Allow\\n3. Delete\\n4. DeleteUser\\n5. Reading\\n6. offserver\\n7. logout')".encode('utf-8'))
         clist[client] = [addr,'a',data[0],data[2]]
     else :
         clist[client] = [addr,'u',data[0],data[2]]
@@ -106,9 +108,24 @@ def client_msg(client,addr):
                 time.sleep(0.2)
                 client.send("print('id:{} userpost:{} :::>>>{}')".format(data[0],data[1],data[2]).encode('utf-8'))
             client.send(optionText.inputChoiceAfterLogin.format(clist[client][2]).encode('utf-8'))
+        ##################################################################################
         elif data[0].upper() == 'Allow'.upper() and clist[client][1]=='a':
-            pass
-
+            client.send(optionText.inputallow.encode('utf-8'))
+        elif data[0] == '-A' and clist[client][1]=='a':
+            Allow(data[1])
+            client.send(optionText.inputChoiceAfterLogin.format(clist[client][2]).encode('utf-8'))
+        ##################################################################################
+        elif data[0].upper() == 'delete'.upper() and clist[client][1]=='a':
+            client.send(optionText.inputdelete.encode('utf-8'))
+        elif data[0] == '-d' and clist[client][1]=='a':
+            Delpost(data[1])
+            client.send(optionText.inputChoiceAfterLogin.format(clist[client][2]).encode('utf-8'))
+        ##################################################################################
+        elif data[0].upper() == 'deleteuser'.upper() and clist[client][1]=='a':
+            client.send(optionText.inputdeleteuser.encode('utf-8'))
+        elif data[0] == '-D' and clist[client][1]=='a':
+            Deluser(data[1])
+            client.send(optionText.inputChoiceAfterLogin.format(clist[client][2]).encode('utf-8'))
 
 
 
