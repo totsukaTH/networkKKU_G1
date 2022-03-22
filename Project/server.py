@@ -25,7 +25,7 @@ clist = {}
 # display option of client.
 def logSuccess(data):
     if data[3] == 'a':
-        client.send("print('1. Request\\n2. Allow\\n3. Delete\\n4. DeleteUser\\n5. Reading\\n6. offserver\\n7. logout')".encode('utf-8'))
+        client.send("print('1. Request\\n2. Allow\\n3. Delete\\n4. DeleteUser\\n5. Reading\\n6. logout')".encode('utf-8'))
         clist[client] = [addr,'a',data[0],data[2]]
     else :
         clist[client] = [addr,'u',data[0],data[2]]
