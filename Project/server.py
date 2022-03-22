@@ -85,14 +85,14 @@ def client_msg(client,addr):
             client.send(optionText.inputChoiceAfterLogin.format(clist[client][2]).encode('utf-8'))
         # ----- action post -----
         elif data[0] == 'upPost':
-            insertPost(data,clist[client][2])
+            insertPost(data,clist[client][3])
         # ----- option search -----
         elif data[0].upper() == 'search'.upper():
             client.send(optionText.inputPostid.encode('utf-8'))
         # ----- action search ------
         elif data[0] == 'searchPostId' :
             RequestPost = search.searchPost(data[1])
-            if len(RequestPost) ==1: 
+            if len(RequestPost) ==1:
                 for text in RequestPost :
                     client.send("print('ข้อความ : {}')".format(text[0]).encode('utf-8'))
             else:
