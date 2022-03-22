@@ -11,4 +11,3 @@ def insertPost(data,userId):
     mySql.commit()
     myCursor.close()
     mySql.close()
-    

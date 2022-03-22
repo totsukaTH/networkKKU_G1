@@ -85,7 +85,7 @@ def client_msg(client,addr):
             client.send(optionText.inputChoiceAfterLogin.format(clist[client][2]).encode('utf-8'))
         # ----- action post -----
         elif data[0] == 'upPost':
-            insertPost(data,clist[client][2])
+            insertPost(data,clist[client][3])
         # ----- option search -----
         elif data[0].upper() == 'search'.upper():
             client.send(optionText.inputPostid.encode('utf-8'))
