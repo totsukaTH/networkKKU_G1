@@ -1,5 +1,5 @@
 # import important
-from curses.ascii import NUL
+#from curses.ascii import NULL
 import socket
 import threading
 import time
@@ -8,7 +8,6 @@ from pymysql import NULL
 # import option
 from register import insertUser
 from login import checkUser
-from type import checktype
 from post import insertPost
 from Reading import Reading
 from register import insertUser
@@ -23,7 +22,8 @@ clist = {}
 
 # display option of client.
 def logSuccess(data):
-    if checktype(data[1]) == 'a':
+    print(data[3])
+    if data[3] == 'a':
         client.send("print('1. Request\\n2. Allow\\n3. Delete\\n4. Delete_User\\n5.Reading\\n6. offserver\\n7. Exit')".encode('utf-8'))
         clist[client] = [addr,'a',data[0],data[2]]
     else :
@@ -43,7 +43,7 @@ def client_msg(client,addr):
         
         # exit
         if data[0] == 'exit':
-            client.send("print('data = exit')".encode('utf-8'))
+            client.send("data = exit".encode('utf-8'))
             break
 
 
@@ -109,8 +109,9 @@ def client_msg(client,addr):
 
 
 
+
         ########################### Register ###########################
-        if data[0] == 'register' :
+        elif data[0] == 'register' :
             if clist[client][1]==0:
                 print("mas from client{}>>>{}".format(addr,data))
                 client.send(optionText.inputRegister.encode('utf-8'))
@@ -123,7 +124,9 @@ def client_msg(client,addr):
             insertUser(data[1],data[2],data[3])
             client.send("print('your insert register success')".encode('utf-8'))
             client.send(optionText.inputChoice.encode('utf-8'))
-
+        else :
+            client.send("print('command error')".encode('utf-8'))
+            client.send(optionText.inputChoice.encode('utf-8'))
 
 
     client.close()

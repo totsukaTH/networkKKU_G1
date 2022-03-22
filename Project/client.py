@@ -20,8 +20,8 @@ def server_msg(client):
             break
         
         exec(data)
-
         if (not data) or data == 'exit':
+            print("exit")
             break
 
     client.close()
