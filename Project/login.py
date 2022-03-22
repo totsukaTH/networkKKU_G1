@@ -1,9 +1,26 @@
-# import 
 import pymysql
+
+# Text option insert data of delete
+
+# input data to login of user.
+inputLogin = '''
+def login():
+    print("Your login")
+    userName = input('Username : ')
+    passWord = input('Password : ')
+    client.send(str_to(['checkUser',userName,passWord]).encode('utf-8'))
+login()
+'''
+
+# input choice after user to login.
+inputChoiceAfterLogin = '''
+data = input('user name is "{}" (insert option) : ')
+client.send(str_to([data]).encode('utf-8'))
+'''
 
 # Check Login
 def checkUser():
-    # connect database.
+    # connect database
     mySql = pymysql.connect(user = 'root',host = 'localhost',database = 'network')
     myCursor = mySql.cursor()
     # select data in database of user for checking login.

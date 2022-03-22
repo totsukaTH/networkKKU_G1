@@ -1,5 +1,18 @@
 import pymysql
 
+# Text option insert data of delete
+
+# input data to register user.
+inputRegister = '''
+def registerUser():
+    # insert data of register
+    email = input('Email : ')
+    userName = input('Username : ')
+    passWord = input('Password : ')
+    client.send(str_to(['insertUser',email,userName,passWord]).encode('utf-8'))
+registerUser()
+'''
+
 # insert data of register to database
 def insertUser(email,userName,passWord):
     # connect database
