@@ -1,13 +1,14 @@
 import socket
 import threading
 import time
+import sys
 
 
 from pymysql import NULL
 
 serverip = 'localhost'
 port = 3000
-
+data = ''
 def str_to(data):
     return "{}".format(data)
 
@@ -23,7 +24,8 @@ def server_msg(client):
         exec(data)
         if (not data) or data == 'exit':
             print("exit")
-            break
+            sys.exit()
+            #break
 
     client.close()
 
@@ -38,12 +40,13 @@ except:
     print('not server')
 
 task = threading.Thread(target=server_msg,args=(client,))
+
+#
+
 task.start()
+task.join()
 time.sleep(0.5)
 
-
-while True:
-    data = ''
-    if data == 'exit':
-        break
 client.close()
+
+

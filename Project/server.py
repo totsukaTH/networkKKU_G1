@@ -92,7 +92,7 @@ def client_msg(client,addr):
         # ----- action search ------
         elif data[0] == 'searchPostId' :
             RequestPost = search.searchPost(data[1])
-            if len(RequestPost) ==1: 
+            if len(RequestPost) ==1:
                 for text in RequestPost :
                     client.send("print('ข้อความ : {}')".format(text[0]).encode('utf-8'))
             else:
