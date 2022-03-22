@@ -20,6 +20,6 @@ def Deluser(userid):
 
 
 
-Delusersql = '''DELETE FROM user WHERE userName = "{}" ;'''
+Delusersql = '''DELETE FROM user WHERE userId = "{}" ;'''
 
 Delpostsql = '''DELETE FROM post WHERE postID = {} ;'''
