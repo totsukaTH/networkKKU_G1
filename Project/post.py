@@ -11,7 +11,7 @@ def post():
     client.send(str_to(['upPost',message]).encode('utf-8'))
 post()
 '''
-# Insert content of User to database.
+# Insert content of User to database by User.
 def insertPost(data,userId):
     # Connect database.
     mySql = pymysql.connect(user = 'root',host = 'localhost',database = 'network')
