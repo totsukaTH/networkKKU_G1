@@ -54,7 +54,7 @@ def logSuccess(data):
         # Show option of User.
         client.send(home.displayUser.encode('utf-8'))
 
-# Massage
+# Massage 
 def client_msg(client,addr):
     while True:
         data = NULL
@@ -72,7 +72,7 @@ def client_msg(client,addr):
             # data[0] == '3' or data[0] == 'exit' in home.
             break
 
-        ########################### Client ###########################
+        ########################## Client ###########################
 
         # ----- login -----
         if data[0].upper() == 'login'.upper() or data[0] == '1' and clist[client][1] == 0 :
