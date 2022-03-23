@@ -1,7 +1,7 @@
-# import 
+# Import 
 import pymysql
 
-# input data to login of user.
+# Input data to login of User.
 inputLogin = '''
 def login():
     print("\\nYour login")
@@ -11,20 +11,21 @@ def login():
 login()
 '''
 
-# input choice after user to login.
+# Input choice after User to login.
 inputChoiceAfterLogin = '''
 data = input('"{}" (Insert option Text or Number) : ')
 client.send(str_to([data]).encode('utf-8'))
 '''
 
-# Check Login
+# Check Login of User.
 def checkUser():
-    # connect database
+    # Connect database.
     mySql = pymysql.connect(user = 'root',host = 'localhost',database = 'network')
     myCursor = mySql.cursor()
-    # select data in database of user for checking login.
+    # Select data in database of user for checking login.
     myCursor.execute("SELECT userName,password,userId,type_user FROM user ")
     detailLogin = myCursor.fetchall()
     mySql.close()
     myCursor.close()
+    # Return data of userName,password,userId,type_user.
     return detailLogin

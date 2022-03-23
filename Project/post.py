@@ -1,8 +1,8 @@
-# import 
+# Import 
 import pymysql
 from datetime import datetime
 
-# input post after user to login.
+# Input content of post by User.
 inputPost = '''
 def post():
     print("\\n== Post ==")
@@ -11,13 +11,13 @@ def post():
     client.send(str_to(['upPost',message]).encode('utf-8'))
 post()
 '''
-
+# Insert content of User to database.
 def insertPost(data,userId):
-    # connect database
+    # Connect database.
     mySql = pymysql.connect(user = 'root',host = 'localhost',database = 'network')
     myCursor = mySql.cursor()
-    # insert data of post to database
-    myCursor.execute("INSERT INTO post (userId,content,DatePost,status) VALUES (%s,%s,%s,%s)",(userId,data[1],datetime.today(),'W'))
+    # Insert content of post to database.
+    myCursor.execute("INSERT INTO post (userId,content,DatePost,status) VALUES (%s,%s,%s,%s)",(userId,data[1],datetime.today(),'w'))
     mySql.commit()
     myCursor.close()
     mySql.close()

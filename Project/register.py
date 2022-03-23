@@ -1,7 +1,7 @@
-# import 
+# Import 
 import pymysql
 
-# input data to register user.
+# Input data to register.
 inputRegister = '''
 def registerUser():
     print('\\n==== Register ====')
@@ -12,13 +12,13 @@ def registerUser():
 registerUser()
 '''
 
-# insert data of register to database
+# Insert data that User registers to database by User.
 def insertUser(email,userName,passWord):
-    # connect database
+    # Connect database
     mySql = pymysql.connect(user = 'root',host = 'localhost',database = 'network')
     myCursor = mySql.cursor()
     status = 'u'
-    # insert data of register to database.
+    # Insert data's register of User to database.
     getData = myCursor.execute("INSERT INTO user (userName,password,e_mail,type_user) VALUES (%s,%s,%s,%s)",(userName,passWord,email,status))
     mySql.commit()
     mySql.close()

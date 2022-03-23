@@ -1,7 +1,7 @@
-# import 
+# Import 
 import pymysql
 
-# input postId for searching content.
+# Input postId for searching content by User.
 inputPostid = '''
 def postId():
     print("\\n== Search ==\\nInsert your post id that you want to find.")
@@ -10,20 +10,25 @@ def postId():
 postId()
 '''
 
+# Search Post by User.
 def searchPost(postId):
-    # connect database.
+    # Connect database.
     mySql = pymysql.connect(user = 'root',host = 'localhost',database = 'network')
     myCursor = mySql.cursor()
-    # select post from post.
-    myCursor.execute("SELECT content FROM post WHERE status != 'W' and postId = (%s)",(postId))
+    # Select post by postId from database.
+    myCursor.execute("SELECT content FROM post WHERE status != 'w' and postId = (%s)",(postId))
     RequestPost = myCursor.fetchall()
-    if bool(RequestPost) == True :
+    if bool(RequestPost) == True : 
+        #  postId has a content.
         mySql.commit()
         mySql.close()
         myCursor.close()
+        #  Return content.
         return RequestPost
     else :
+        #  postId hasn't a content.
         mySql.commit()
         mySql.close()
         myCursor.close()
+        #  Return boolean is False that postId hasn't data.
         return False

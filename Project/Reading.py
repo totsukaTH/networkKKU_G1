@@ -1,15 +1,16 @@
-# import
+# Import
 import pymysql
 
-# Check Login
+# User or Admin reads content of all post.
 def Reading():
-    # connect database.
+    # Connect database.
     mySql = pymysql.connect(user = 'root',host = 'localhost',database = 'network')
     myCursor = mySql.cursor()
-    # select data of post is not 'w' in database.
-    myCursor.execute("SELECT postID,userID,content FROM post WHERE status != 'W' ")
+    # Select content of post is 'p' in database.
+    # 'p' is content of post that Admin allows.
+    myCursor.execute("SELECT postID,userID,content FROM post WHERE status != 'w' ")
     detailPostForReading = myCursor.fetchall()
     mySql.close()
     myCursor.close()
-    # return detail of post for reading.
+    # Return detail of post for reading.
     return detailPostForReading
