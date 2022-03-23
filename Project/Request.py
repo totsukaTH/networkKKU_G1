@@ -7,7 +7,7 @@ def Request():
     mySql = pymysql.connect(user = 'root',host = 'localhost',database = 'network')
     myCursor = mySql.cursor()
     # Select all post of user that it is status 'w'.
-    myCursor.execute("SELECT postID,userID,content FROM post WHERE status = 'w' ")
+    myCursor.execute("SELECT postID,userID,datePost,content FROM post WHERE status = 'w' ")
     RequestPost = myCursor.fetchall()
     mySql.close()
     myCursor.close()

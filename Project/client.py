@@ -1,3 +1,4 @@
+# import
 import socket
 import threading
 import time
@@ -27,7 +28,6 @@ def server_msg(client):
 
     client.close()
 
-
 client = socket.socket()
 client.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR,1)
 
@@ -41,5 +41,3 @@ task.start()
 task.join()
 time.sleep(1.5)
 client.close()
-
-
