@@ -23,11 +23,11 @@ clist = {}
 # display option of client 'admin' and 'client'.
 def logSuccess(data):
     if data[3] == 'a':
-        client.send(home.displayAdmin.encode('utf-8'))
         # data[0] is username .
         # data[1] is userId.
         # addr is ip other.
         clist[client] = [addr,'a',data[0],data[2]]
+        client.send(home.displayAdmin.encode('utf-8'))
     else :
         clist[client] = [addr,'u',data[0],data[2]]
         client.send(home.displayUser.encode('utf-8'))
@@ -44,12 +44,12 @@ def client_msg(client,addr):
         print(data)
         
         # exit
-        if data[0].upper() == 'exit'.upper() and clist[client][1] == 0:
+        if data[0].upper() == 'exit'.upper() or data[0] == '3' and clist[client][1] == 0:
             break
 
         ########################### Client ###########################
         # ----- login -----
-        if data[0].upper() == 'login'.upper() :
+        if data[0].upper() == 'login'.upper() or data[0] == '1' and clist[client][1] == 0 :
             if clist[client][1] == 0:
                 print("mas from client{}>>>{}".format(addr,data))
                 client.send(login.inputLogin.encode('utf-8'))
@@ -82,7 +82,7 @@ def client_msg(client,addr):
                 client.send(home.inputChoice.encode('utf-8'))
         
         # ----- register -----
-        elif data[0] == 'register' :
+        elif data[0] == 'register' or data[0] == '2' and clist[client][1] == 0 :
             if clist[client][1]==0:
                 print("mas from client{}>>>{}".format(addr,data))
                 client.send(register.inputRegister.encode('utf-8'))
@@ -99,13 +99,13 @@ def client_msg(client,addr):
             client.send(home.inputChoice.encode('utf-8'))
         
         # ----- post -----
-        elif data[0].upper() == 'post'.upper() and clist[client][1]=='u':
+        elif data[0].upper() == 'post'.upper() or data[0] == '1' and clist[client][1]=='u':
             print("mas from client{}>>>{}".format(addr,data))
             client.send(post.inputPost.encode('utf-8'))
             time.sleep(0.2)
             client.send("print('You post success:)\\n')".encode('utf-8'))
             # come back menu user
-            time.sleep(1.7)
+            time.sleep(2)
             client.send(home.displayUser.format(clist[client][2]).encode('utf-8'))
             client.send(login.inputChoiceAfterLogin.format(clist[client][2]).encode('utf-8'))
         # ----- action post -----
@@ -113,12 +113,12 @@ def client_msg(client,addr):
             post.insertPost(data,clist[client][3])
 
         # ----- search -----
-        elif data[0].upper() == 'search'.upper():
-            client.send(post.inputPostid.encode('utf-8'))
+        elif data[0].upper() == 'search'.upper() or data[0] == '3' and clist[client][1]=='u':
+            client.send(search.inputPostid.encode('utf-8'))
         # ----- action search ------
         elif data[0] == 'searchPostId' :
             RequestPost = search.searchPost(data[1])
-            if len(RequestPost) == 1:
+            if bool(RequestPost) == True:
                 for text in RequestPost :
                     client.send("print('ข้อความ : {}')".format(text[0]).encode('utf-8'))
                 time.sleep(0.2)
@@ -137,7 +137,7 @@ def client_msg(client,addr):
                 client.send(login.inputChoiceAfterLogin.format(clist[client][2]).encode('utf-8'))
 
         # ----- reading -----
-        elif data[0].upper() == 'reading'.upper() and clist[client][1]!=0:
+        elif data[0].upper() == 'reading'.upper() or (data[0] == '2' and clist[client][1] == 'u') or (data[0] == '3' and clist[client][1] == 'a') :
             client.send("print('\\n== Reading ==')".encode('utf-8'))
             for data in reading.Reading():
                 time.sleep(0.2)
@@ -154,7 +154,7 @@ def client_msg(client,addr):
         
         ########################### Admin ###########################
         # ----- equest -----
-        elif data[0].upper() == 'request'.upper() and clist[client][1]=='a':
+        elif data[0].upper() == 'request'.upper() or (data[0] == '1' and clist[client][1] == 'a') :
             client.send("print('\\n== Request ==')".encode('utf-8'))
             client.send("print('There are {} phrase.')".format(len(request.Request())).encode('utf-8'))
             for data in request.Request():
@@ -167,43 +167,58 @@ def client_msg(client,addr):
             client.send(login.inputChoiceAfterLogin.format(clist[client][2]).encode('utf-8'))
 
         # ----- allow -----
-        elif data[0].upper() == 'Allow'.upper() and clist[client][1]=='a':
+        elif data[0].upper() == 'Allow'.upper() or (data[0] == '2' and clist[client][1] == 'a'):
             client.send("print('\\n== Allow ==')".encode('utf-8'))
             client.send(allow.inputDataForAllow.encode('utf-8'))
         elif data[0] == '-A' and clist[client][1]=='a':
-            allow.Allow(data[1])
-            time.sleep(0.2)
-            client.send("print('You allow to success.\\n')".encode('utf-8'))
-            time.sleep(1.5)
-            client.send(home.displayAdmin.encode('utf-8'))
-            client.send(login.inputChoiceAfterLogin.format(clist[client][2]).encode('utf-8'))
+            checkAllow = allow.Allow(data[1])
+            if checkAllow == True :
+                client.send("print('You allow to success. :)\\n')".encode('utf-8'))
+                time.sleep(1.5)
+                client.send(home.displayAdmin.encode('utf-8'))
+                client.send(login.inputChoiceAfterLogin.format(clist[client][2]).encode('utf-8'))
+            else :
+                client.send("print('You allow to unsuccess. :(\\nTry again.\\n')".encode('utf-8'))
+                time.sleep(1.5)
+                client.send(home.displayAdmin.encode('utf-8'))
+                client.send(login.inputChoiceAfterLogin.format(clist[client][2]).encode('utf-8'))
 
         # ----- delete -----
-        elif data[0].upper() == 'delete'.upper() and clist[client][1]=='a':
+        elif data[0].upper() == 'delete'.upper() or (data[0] == '4' and clist[client][1] == 'a'):
             client.send("print('\\n== Delete Post ==')".encode('utf-8'))
             client.send(delete.deletepost.encode('utf-8'))
         elif data[0] == '-d' and clist[client][1]=='a':
-            delete.Delpost(data[1])
-            time.sleep(0.2)
-            client.send("print('You delete post to success.\\n')".encode('utf-8'))
-            time.sleep(1.5)
-            client.send(home.displayAdmin.encode('utf-8'))
-            client.send(login.inputChoiceAfterLogin.format(clist[client][2]).encode('utf-8'))
+            checkPost = delete.Delpost(data[1])
+            if checkPost == True :
+                client.send("print('You delete post to success. :)\\n')".encode('utf-8'))
+                time.sleep(1.5)
+                client.send(home.displayAdmin.encode('utf-8'))
+                client.send(login.inputChoiceAfterLogin.format(clist[client][2]).encode('utf-8'))
+            else :
+                client.send("print('You delete post to fail. :(\\nTry again.\\n')".encode('utf-8'))
+                time.sleep(1.5)
+                client.send(home.displayAdmin.encode('utf-8'))
+                client.send(login.inputChoiceAfterLogin.format(clist[client][2]).encode('utf-8'))
 
         # ----- delete user -----
-        elif data[0].upper() == 'deleteuser'.upper() and clist[client][1]=='a':
+        elif data[0].upper() == 'deleteuser'.upper() or (data[0] == '5' and clist[client][1] == 'a'):
             client.send("print('\\n== Delete User ==')".encode('utf-8'))
             client.send(delete.deleteuser.encode('utf-8'))
         elif data[0] == '-D' and clist[client][1]=='a':
-            delete.Deluser(data[1])
-            time.sleep(0.2)
-            client.send("print('You delete user to success.\\n')".encode('utf-8'))
-            time.sleep(1.5)
-            client.send(home.displayAdmin.encode('utf-8'))
-            client.send(login.inputChoiceAfterLogin.format(clist[client][2]).encode('utf-8'))
+            checkDeleteUser = delete.Deluser(data[1])
+            if checkDeleteUser == True :
+                client.send("print('You delete user to success. :)\\n')".encode('utf-8'))
+                time.sleep(1.5)
+                client.send(home.displayAdmin.encode('utf-8'))
+                client.send(login.inputChoiceAfterLogin.format(clist[client][2]).encode('utf-8'))
+            else :
+                client.send("print('You delete user to fail. :(\\nTry again.\\n')".encode('utf-8'))
+                time.sleep(1.5)
+                client.send(home.displayAdmin.encode('utf-8'))
+                client.send(login.inputChoiceAfterLogin.format(clist[client][2]).encode('utf-8'))
 
         # ----- logout user and admin -----
-        elif data[0].upper() == 'logout'.upper() and clist[client][1] != 0:
+        elif data[0].upper() == 'logout'.upper() or (data[0] == '4' and clist[client][1] == 'u') or (data[0] == '6' and clist[client][1] == 'a'):
             print("mas from client{}>>>{}".format(addr,data))
             clist[client] = [addr,0,NULL,NULL]
             client.send("print('logout Successful\\n')".encode('utf-8'))
@@ -222,6 +237,11 @@ def client_msg(client,addr):
                 client.send("print('command error\\n')".encode('utf-8'))
                 time.sleep(1.5)
                 client.send(home.displayUser.format(clist[client][2]).encode('utf-8'))
+                client.send(login.inputChoiceAfterLogin.format(clist[client][2]).encode('utf-8'))
+            elif clist[client][1] == 'a' :
+                client.send("print('command error\\n')".encode('utf-8'))
+                time.sleep(1.5)
+                client.send(home.displayAdmin.format(clist[client][2]).encode('utf-8'))
                 client.send(login.inputChoiceAfterLogin.format(clist[client][2]).encode('utf-8'))
     client.close()
 

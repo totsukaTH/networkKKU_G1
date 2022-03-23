@@ -12,15 +12,6 @@ def post():
 post()
 '''
 
-# input postId for searching content.
-inputPostid = '''
-def postId():
-    print("\\n== Search ==\\nInsert your post id that you want to find.")
-    postId = int(input('>>>'))
-    client.send(str_to(['searchPostId',postId]).encode('utf-8'))
-postId()
-'''
-
 def insertPost(data,userId):
     # connect database
     mySql = pymysql.connect(user = 'root',host = 'localhost',database = 'network')

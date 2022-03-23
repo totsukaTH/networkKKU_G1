@@ -1,6 +1,6 @@
 # input choice in home.
 inputChoice = '''
-data = input('Enter your choice : ')
+data = input('Enter your choice (Text or Number): ')
 client.send(str_to([data]).encode('utf-8'))
 '''
 

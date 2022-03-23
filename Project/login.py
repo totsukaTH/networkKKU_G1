@@ -13,7 +13,7 @@ login()
 
 # input choice after user to login.
 inputChoiceAfterLogin = '''
-data = input('"{}" (insert option) : ')
+data = input('"{}" (Insert option Text or Number) : ')
 client.send(str_to([data]).encode('utf-8'))
 '''
 

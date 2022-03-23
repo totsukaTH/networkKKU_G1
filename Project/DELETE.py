@@ -17,22 +17,41 @@ client.send(str_to(['-D',data]).encode('utf-8'))
 '''
 
 # delete 'post' by Admin.
-def Delpost(poatid):
+def Delpost(postId):
     # connect database
     mySql = pymysql.connect(user = 'root',host = 'localhost',database = 'network')
     myCursor = mySql.cursor()
-    myCursor.execute("DELETE FROM post WHERE postID = {}".format(poatid))
-    mySql.commit()
-    mySql.close()
-    myCursor.close()
+    myCursor.execute("SELECT content FROM post WHERE postId = (%s)",(postId))
+    RequestPost = myCursor.fetchall()
+    if len(RequestPost) == 1 :
+        myCursor.execute("DELETE FROM post WHERE postID = {}".format(postId))
+        mySql.commit()
+        mySql.close()
+        myCursor.close()
+        return True
+    else :
+        mySql.commit()
+        mySql.close()
+        myCursor.close()
+        return False
 
 # delete 'user' by Admin.
-def Deluser(userid):
+def Deluser(userId):
     # connect database
     mySql = pymysql.connect(user = 'root',host = 'localhost',database = 'network')
     myCursor = mySql.cursor()
-    myCursor.execute("DELETE FROM post WHERE userId = {}".format(userid))
-    myCursor.execute("DELETE FROM user WHERE userId = {}".format(userid))
-    mySql.commit()
-    mySql.close()
-    myCursor.close()
+    myCursor.execute("SELECT type_user FROM user WHERE userId = (%s)",(userId))
+    RequestPost = myCursor.fetchall()
+    if len(RequestPost) == 1 :
+        myCursor.execute("DELETE FROM post WHERE userId = {}".format(userId))
+        myCursor.execute("DELETE FROM user WHERE userId = {}".format(userId))
+        mySql.commit()
+        mySql.close()
+        myCursor.close()
+        return True
+    else :
+        mySql.commit()
+        mySql.close()
+        myCursor.close()
+        return False
+    
