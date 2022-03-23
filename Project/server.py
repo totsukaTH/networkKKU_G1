@@ -5,14 +5,14 @@ import time
 from pymysql import NULL
 
 # import file 
-import DELETE
+import delete
 import allow
 import login
 import post
 import home
 import register
-import Reading
-import Request
+import reading
+import request
 import search
 import showuser
 
