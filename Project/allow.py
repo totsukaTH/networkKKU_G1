@@ -25,6 +25,7 @@ def Allow(postId):
         mySql.commit()
         mySql.close()
         myCursor.close()
+        print('555')
         # Return boolean True that it sets status of post to success.
         return True
     else :
